@@ -18,8 +18,25 @@ namespace M09SnakeGit {
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
+
+
+
         public MainWindow() {
             InitializeComponent();
+        }
+
+        private void canvas_KeyDown(object sender, KeyEventArgs e) {
+            Ellipse elipSerp = new Ellipse() {
+                Fill = Brushes.Green,
+                Width = 100,
+                Height = 100
+            };
+
+            canvas.Children.Add(elipSerp);
+            Canvas.SetTop(elipSerp, canvas.ActualHeight / 2);
+            Canvas.SetLeft(elipSerp, canvas.ActualWidth / 2);
+
+
         }
     }
 }
