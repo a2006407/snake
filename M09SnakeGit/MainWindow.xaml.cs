@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace M09SnakeGit {
     /// <summary>
@@ -20,22 +21,38 @@ namespace M09SnakeGit {
     public partial class MainWindow : Window {
 
 
+        SnakeGame jocSerp;
+
 
         public MainWindow() {
+            jocSerp = new SnakeGame();
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Tick += Timer_Tick;
+            timer.Interval = new TimeSpan(0, 0, 1);
+            timer.Start();
+
             InitializeComponent();
         }
 
-        private void canvas_KeyDown(object sender, KeyEventArgs e) {
+        private void Timer_Tick(object sender, EventArgs e) {
+            int casellaXsize = (int)(canvas.ActualWidth / SnakeGame.X_SIZE);
+            int casellaYsize = (int)(canvas.ActualWidth / SnakeGame.Y_SIZE);
             Ellipse elipSerp = new Ellipse() {
                 Fill = Brushes.Green,
-                Width = 100,
-                Height = 100
+                Width = canvas.ActualWidth / SnakeGame.X_SIZE,
+                Height = canvas.ActualHeight / SnakeGame.Y_SIZE
             };
 
             canvas.Children.Add(elipSerp);
-            Canvas.SetTop(elipSerp, canvas.ActualHeight / 2);
-            Canvas.SetLeft(elipSerp, canvas.ActualWidth / 2);
+            Canvas.SetTop(elipSerp, jocSerp.CapSerp.X * casellaXsize);
+            Canvas.SetLeft(elipSerp, jocSerp.CapSerp.Y * casellaYsize);
 
+        }
+
+        private void canvas_KeyDown(object sender, KeyEventArgs e) {
+            if(e.Key is Key.Down) {
+                jocSerp.moure();
+            }
 
         }
     }
